@@ -3,9 +3,12 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Card from "react-bootstrap/Card";
 import { NavLink } from "react-router-dom";
+import { base_url } from "../utils/environment";
 import Loading from "./Loading";
+// import Loading from "./Loading";
 
 const Products = () => {
+  
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([data]);
   const [loading, setLoading] = useState(false);
@@ -13,7 +16,7 @@ const Products = () => {
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
-      const response = await fetch("http://fakestoreapi.com/products");
+      const response = await fetch(`${base_url}products`);
       if (componentMounted) {
         setData(await response.clone().json());
         setFilter(await response.json());

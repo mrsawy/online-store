@@ -3,11 +3,19 @@ import React, { useRef, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { Button } from "bootstrap";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "./../redux/action/index";
+import axios from "axios";
 
 import { MDBContainer, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
+import { base_url } from "../utils/environment";
 
 export default function Register() {
+  let nav = useNavigate();
+  let { name, id } = useSelector((s) => s.auth);
+  let dispatch = useDispatch();
+
   const initialFormData = {
     email: "",
     password: "",
@@ -46,7 +54,7 @@ export default function Register() {
     });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (
       !err.email &&
@@ -54,23 +62,37 @@ export default function Register() {
       emailRegex.test(formData.email) &&
       formData.password.length > 8
     ) {
-      setFormData({
-        ...initialFormData,
-      });
-      Swal.fire({
-        position: "center-center",
-        type: "success",
-        title: "Enjoy in our store ✔👌",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      try {
+        // console.log(formData);
+        let url = `${base_url}login`;
+        let response = await axios.post(url, formData);
+        // console.log(response, response.data);
+        let { user, token } = response.data;
+        dispatch(login({ id: user.id, name: user.name, email: user.email }));
+        localStorage.setItem(`user`, JSON.stringify(user));
+        localStorage.setItem(`token`, token);
 
-      //Go to home page after login
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 2300);
-      
+        setTimeout(() => {
+          nav(`/`);
+        }, 2500);
+
+        Swal.fire({
+          position: "center-center",
+          type: "success",
+          title: "Enjoy in our store ✔👌",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } catch (err) {
+        console.log(err);
+        Swal.fire({
+          type: "error",
+          title: "Something went wrong!",
+          icon: "error",
+          text: err?.response?.data?.message || err?.message,
+        });
+      }
     } else {
       Swal.fire({
         type: "error",
@@ -90,7 +112,7 @@ export default function Register() {
             onChange={changeHandler}
             value={formData.email}
             name="email"
-            placeholder="name@example.com" 
+            placeholder="name@example.com"
           />
           <Form.Text>{err.email}</Form.Text>
         </Form.Group>

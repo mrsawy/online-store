@@ -1,20 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { delItem } from "../redux/action/index";
+import { NavLink, useNavigate } from "react-router-dom";
+import { delItem, setCart } from "../redux/action/index";
+import authenticatedRequest from "../utils/authenticatedRequest";
+import { base_url } from "../utils/environment";
+import Swal from "sweetalert2";
 
 function Cart() {
+  let nav = useNavigate();
   const state = useSelector((state) => state.addItem);
+  const cart = useSelector((state) => state.cart);
+  const { isLogged } = useSelector((state) => state.auth);
+  let [cartState, setCartState] = useState([]);
+  useEffect(() => {
+    if (isLogged) {
+      setCartState(cart);
+    } else {
+      setCartState(state);
+    }
+  }, [cart, isLogged, setCartState, state]);
+
+  useEffect(() => {
+    console.log(`cartState is ==`, cartState);
+  }, [cartState]);
+
   const dispatch = useDispatch();
 
-  const handleClose = (item) => {
-    dispatch(delItem(item));
+  const handleClose = async (item) => {
+    !isLogged && dispatch(delItem(item));
+    if (isLogged) {
+      let token = localStorage.getItem(`token`);
+      let data = await authenticatedRequest({
+        method: `DELETE`,
+        url: `${base_url}cart/${item.id}`,
+        token,
+      });
+
+      let cart = await authenticatedRequest({
+        method: `GET`,
+        url: `${base_url}cart`,
+        token,
+      });
+      console.log(data, cart);
+      dispatch(setCart(cart));
+      // console.log(data)
+    }
   };
 
   const cartItems = (cartItem) => {
     return (
-      
       <div className="px-4 my-5 bg-light rounded-3" key={cartItem.id}>
         <div className="container py-4">
           <button
@@ -64,10 +99,26 @@ function Cart() {
             Add Items <i class="fa fa-plus ms-1"></i>
           </NavLink>
           <br />
-          <NavLink to="/checkout" className="btn btn-outline-dark mb-5  ">
-            Proceed To checkout
-          </NavLink>
+          <div
+            className="btn btn-outline-dark mb-5"
+            onClick={() => {
+              if (isLogged) {
+                nav(`/checkout`);
+              }else{
 
+
+                Swal.fire({
+          type: "error",
+          title: "Something went wrong!",
+          icon: "error",
+          text: `You need to login first to proceed to checkout`,
+        });
+
+              }
+            }}
+          >
+            Proceed To checkout
+          </div>
         </div>
       </div>
     );
@@ -75,9 +126,9 @@ function Cart() {
 
   return (
     <>
-      {state.length === 0 && emptyCart()}
-      {state.length !== 0 && state.map(cartItems)}
-      {state.length !== 0 && button()}
+      {cartState.length === 0 && emptyCart()}
+      {cartState.length !== 0 && cartState.map(cartItems)}
+      {cartState.length !== 0 && button()}
     </>
   );
 }

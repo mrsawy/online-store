@@ -1,18 +1,21 @@
 import Container from "react-bootstrap/Container";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
-import {
-    MDBFooter,
-    MDBContainer,
-    MDBCol,
-    MDBRow,
-    MDBIcon,
-    MDBBtn
-  } from 'mdb-react-ui-kit';
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "./../redux/action/index";
+
+import { MDBFooter, MDBContainer, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
+import { base_url } from "../utils/environment";
 
 export default function Register() {
+  let nav = useNavigate();
+
+  let { name, id } = useSelector((s) => s.auth);
+
+  let dispatch = useDispatch();
   const initialFormData = {
     name: "",
     email: "",
@@ -24,6 +27,10 @@ export default function Register() {
   const pass2Ref = useRef(null);
 
   const [formData, setFormData] = useState({ ...initialFormData });
+
+  useEffect(() => {
+    console.log(name, id);
+  }, [name, id]);
 
   const [err, setErr] = useState({
     email: null,
@@ -63,49 +70,53 @@ export default function Register() {
     });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
+    if (
+      !err.email &&
+      !err.password1 &&
+      !err.password2 &&
+      emailRegex.test(formData.email) &&
+      formData.confirmPassword === formData.password &&
+      formData.password.length >= 8
+    ) {
+      try {
+        let url = `${base_url}register`;
+        let response = await axios.post(url, {
+          ...formData,
+          password_confirmation: formData.confirmPassword,
+        });
+        console.log(response, response.data);
+        let { user, token } = response.data;
+        dispatch(login({ id: user.id, name: user.name }));
+        localStorage.setItem(`user`, JSON.stringify(user));
+        localStorage.setItem(`token`, token);
+        Swal.fire({
+          position: "center-center",
+          type: "success",
+          icon: "success",
+          title: "Your Links has been saved ✔👌",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        setTimeout(() => {
+          nav(`/`);
+        }, 2500);
+      } catch (err) {
+        console.log(err);
+      }
 
-        if (
-          !err.email &&
-          !err.password1 &&
-          !err.password2 &&
-          emailRegex.test(formData.email) &&
-          formData.confirmPassword === formData.password&&
-          formData.password.length >= 8
-
-        ) {
-          setFormData({
-            ...initialFormData,
-          });
-          Swal.fire({
-            position: "center-center",
-            type: "success",
-            icon: "success",
-            title: "Your Links has been saved ✔👌",
-            showConfirmButton: false,
-            timer: 2000,
-          });
-          
-          setTimeout(() => {
-            window.location.reload();
-          }, 2500);
-
-          //Go To Login Page Automatically After Register
-          window.location.pathname = '/login';
-
-        } else {
-          Swal.fire({
-            type: "error",
-            title: "Something went wrong!",
-            icon: "error",
-            text: `You can't submit this form before enter valid data 
+    } else {
+      Swal.fire({
+        type: "error",
+        title: "Something went wrong!",
+        icon: "error",
+        text: `You can't submit this form before enter valid data 
             and two passwords matched. Please try again
              `,
-          });
-        }
-
+      });
+    }
   };
   return (
     <Container className="col-md-6 my-5 shadow p-4 rounded-4 ">
@@ -172,55 +183,53 @@ export default function Register() {
           </Link>
         </p>
         <p className="text-center fw-bold">SignUp With </p>
-        <MDBContainer className=' pb-0 text-center '>
-        <section className='mb-4'>
-          <MDBBtn
-            floating
-            className='me-4 border-0 rounded shadow'
-            style={{ backgroundColor: '#3b5998' }}
-            href='https://www.facebook.com/marawan.magdy.58910'
-            role='button'
-            target='_blank'
-          >
-            <MDBIcon fa icon='facebook-f' />
-          </MDBBtn>
+        <MDBContainer className=" pb-0 text-center ">
+          <section className="mb-4">
+            <MDBBtn
+              floating
+              className="me-4 border-0 rounded shadow"
+              style={{ backgroundColor: "#3b5998" }}
+              href="https://www.facebook.com/marawan.magdy.58910"
+              role="button"
+              target="_blank"
+            >
+              <MDBIcon fa icon="facebook-f" />
+            </MDBBtn>
 
+            <MDBBtn
+              floating
+              className="me-4 border-0 rounded shadow"
+              style={{ backgroundColor: "#dd4b39" }}
+              href="http://marawanmagdy389@gmail.com"
+              role="button"
+              target="_blank"
+            >
+              <MDBIcon fa icon="google" />
+            </MDBBtn>
 
-          <MDBBtn
-            floating
-            className='me-4 border-0 rounded shadow'
-            style={{ backgroundColor: '#dd4b39' }}
-            href='http://marawanmagdy389@gmail.com'
-            role='button'
-            target='_blank'
-          >
-            <MDBIcon fa icon='google' />
-          </MDBBtn>
+            <MDBBtn
+              floating
+              className="me-4 border-0 rounded shadow"
+              style={{ backgroundColor: "#0082ca" }}
+              href="https://www.linkedin.com/in/marwan-magdy72"
+              role="button"
+              target="_blank"
+            >
+              <MDBIcon fa icon="linkedin" />
+            </MDBBtn>
 
-          <MDBBtn
-            floating
-            className='me-4 border-0 rounded shadow'
-            style={{ backgroundColor: '#0082ca' }}
-            href='https://www.linkedin.com/in/marwan-magdy72'
-            role='button'
-            target='_blank'
-          >
-            <MDBIcon fa icon='linkedin' />
-          </MDBBtn>
-
-          <MDBBtn
-            floating
-            className='me-4 border-0 rounded shadow'
-            style={{ backgroundColor: '#333333' }}
-            href='https://github.com/MarwanMagdy72'
-            role='button'
-            target='_blank'
-            
-          >
-            <MDBIcon fa icon='github' />
-          </MDBBtn>
-        </section>
-      </MDBContainer>
+            <MDBBtn
+              floating
+              className="me-4 border-0 rounded shadow"
+              style={{ backgroundColor: "#333333" }}
+              href="https://github.com/MarwanMagdy72"
+              role="button"
+              target="_blank"
+            >
+              <MDBIcon fa icon="github" />
+            </MDBBtn>
+          </section>
+        </MDBContainer>
       </Form>
     </Container>
   );

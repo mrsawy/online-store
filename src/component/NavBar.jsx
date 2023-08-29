@@ -1,13 +1,18 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { UseSelector, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout } from "../redux/action";
 
 const NavBar = () => {
+  let dispatch = useDispatch();
+  let nav = useNavigate();
+
   const state = useSelector((state) => state.addItem);
+  const cart = useSelector((state) => state.cart);
+  const { isLogged } = useSelector((state) => state.auth);
   return (
     <div>
-
-       <nav className="navbar navbar-expand-lg navbar-light col-12 bg-light py-3 shadow">
+      <nav className="navbar navbar-expand-lg navbar-light col-12 bg-light py-3 shadow">
         <div className="container">
           <NavLink className="navbar-brand fw-bold fa-2x" to="/">
             STOP & SHOP
@@ -51,25 +56,45 @@ const NavBar = () => {
               </li>
             </ul>
             <div className="buttons">
-              <NavLink className="btn btn-outline-dark me-2" to="/login">
-                <i className="fa fa-sign-in me-1"></i> Login
-              </NavLink>
-              <NavLink className="btn btn-outline-dark me-2 " to="/register">
-                <i className="fa fa-user-plus me-1"></i> Register
-              </NavLink>
+              {!isLogged && (
+                <>
+                  <NavLink className="btn btn-outline-dark me-2" to="/login">
+                    <i className="fa fa-sign-in me-1"></i> Login
+                  </NavLink>
+                  <NavLink
+                    className="btn btn-outline-dark me-2 "
+                    to="/register"
+                  >
+                    <i className="fa fa-user-plus me-1"></i> Register
+                  </NavLink>
+                </>
+              )}
+              {isLogged && (
+                <>
+                  <div
+                    className="btn btn-outline-dark me-2"
+                    onClick={() => {
+                      dispatch(logout());
+                      nav(`/`);
+                    }}
+                  >
+                    <i className="fa fa-sign-out me-1"></i> Logout
+                  </div>
+                </>
+              )}
               <NavLink className="btn border-0  " to="/cart">
                 <span
                   className="badge bg-danger rounded-pill d-block "
-                  style={{ fontSize: 18 , marginBottom:-6  }} 
+                  style={{ fontSize: 18, marginBottom: -6 }}
                 >
-                  {state?.length}
+                  {!isLogged ? state?.length : cart?.length}
                 </span>
-                <i className="fa fa-shopping-cart me-1  fa-2x " ></i>
+                <i className="fa fa-shopping-cart me-1  fa-2x "></i>
               </NavLink>
             </div>
           </div>
         </div>
-      </nav> 
+      </nav>
     </div>
   );
 };

@@ -1,5 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import aboutImg from './../assets/about.jpg'
+
+// /assets/about.jpg
 
 const About = () => {
     return (
@@ -7,7 +10,7 @@ const About = () => {
             <div className="container py-5 my-5">
                 <div className="row">
                 <div className="col-md-6 d-flex justify-content-center">
-                        <img src="/assets/about.jpg" alt="About Us" className='rounded-circle shadow' height={400} width="400px" />
+                        <img src={aboutImg} alt="About Us" className='rounded-circle shadow' height={400} width="400px" />
                     </div>
                     <div className="col-md-6">
                         <h1 className=" fw-bold mb-4">About Us</h1>
