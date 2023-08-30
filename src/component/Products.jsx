@@ -29,6 +29,8 @@ const Products = () => {
       };
     };
     getProducts();
+    window.scroll(0,0)
+
   }, []);
 
 
@@ -67,7 +69,8 @@ const Products = () => {
                   <Card.Img
                     variant="top" 
                     src={product.image}
-                    height={"250px"}
+                    height={"220px"}
+                    width={`auto`}
                   />
                   <Card.Body>
                     <Card.Title className="mb-0"> <h5>{product?.title?.substring(0,12)}</h5> </Card.Title>
@@ -85,7 +88,9 @@ const Products = () => {
     );
   };
   return (
-    <div>
+    <div
+    style={{minHeight:`100vh`}}
+    >
       <div className="container my-3">
         <div className="row">
           <div className="col-md-12 mb-3">

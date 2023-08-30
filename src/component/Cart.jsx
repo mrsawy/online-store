@@ -50,7 +50,16 @@ function Cart() {
 
   const cartItems = (cartItem) => {
     return (
-      <div className="px-4 my-5 bg-light rounded-3" key={cartItem.id}>
+      <div
+        className="px-4  bg-light rounded-3"
+        key={cartItem.id}
+        style={{
+          maxWidth: 800,
+          margin: `20px auto`,
+          minHeight: `90vh`,
+          border: `2px solid #e1e1e1`,
+        }}
+      >
         <div className="container py-4">
           <button
             onClick={() => handleClose(cartItem)}
@@ -66,7 +75,7 @@ function Cart() {
                 width="100%"
               />
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 d-flex flex-column justify-content-center align-items-center">
               <h3>{cartItem.title}</h3>
               <p className="lead fw-bold">Price: {cartItem.price}$</p>
             </div>
@@ -104,16 +113,13 @@ function Cart() {
             onClick={() => {
               if (isLogged) {
                 nav(`/checkout`);
-              }else{
-
-
+              } else {
                 Swal.fire({
-          type: "error",
-          title: "Something went wrong!",
-          icon: "error",
-          text: `You need to login first to proceed to checkout`,
-        });
-
+                  type: "error",
+                  title: "Something went wrong!",
+                  icon: "error",
+                  text: `You need to login first to proceed to checkout`,
+                });
               }
             }}
           >

@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../redux/action";
+import { login, logout, setOrders } from "../redux/action";
+import authenticatedRequest from "../utils/authenticatedRequest";
+import { base_url } from "../utils/environment";
 
 const NavBar = () => {
   let dispatch = useDispatch();
   let nav = useNavigate();
 
   const state = useSelector((state) => state.addItem);
+  const { orders } = useSelector((state) => state.orders);
+  let [ordersState, setOrdersState] = useState();
+  useEffect(() => {
+    // authenticatedRequest
+    // base_url
+    (async () => {
+      let token = localStorage.getItem(`token`);
+      let orders = await authenticatedRequest({
+        method: `GET`,
+        url: `${base_url}orders`,
+        token,
+      });
+      setOrdersState(orders);
+      dispatch(setOrders(orders));
+    })();
+  }, []);
+  // const {orders} = useSelector((state) => state.orders);
   const cart = useSelector((state) => state.cart);
   const { isLogged } = useSelector((state) => state.auth);
   return (
@@ -54,6 +73,13 @@ const NavBar = () => {
                   Contact
                 </NavLink>
               </li>
+              {isLogged && (orders?.length > 0 || ordersState?.length > 0) && (
+                <li className="nav-item fw-bold">
+                  <NavLink className="nav-link " to="/orders">
+                    Orders
+                  </NavLink>
+                </li>
+              )}
             </ul>
             <div className="buttons">
               {!isLogged && (
@@ -69,6 +95,7 @@ const NavBar = () => {
                   </NavLink>
                 </>
               )}
+
               {isLogged && (
                 <>
                   <div

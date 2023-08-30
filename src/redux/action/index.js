@@ -52,3 +52,16 @@ export const setCart = (data) => {
         payload : data
     }
 }
+
+export const setOrders = (data) => {
+    return {
+        type : "SET_ORDER",
+        payload : data
+    }
+}
+export const setCurrentOrder = (data) => {
+    return {
+        type : "SET_CURRENT_ORDER",
+        payload : data
+    }
+}

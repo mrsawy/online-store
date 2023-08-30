@@ -27,12 +27,13 @@ const Product = () => {
       setLoading(false);
     };
     getProduct();
+    window.scroll(0,0)
   }, []);
 
   const ShowProduct = () => {
     return (
       <>
-        <div className="col-md-6 mb-5">
+        <div className="col-md-6 mb-5" style={{ minHeight: `190vh` }}>
           <img
             src={product.image}
             alt={product.title}
@@ -40,7 +41,9 @@ const Product = () => {
             width={"100%"}
           />
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6"
+        // style={{ minHeight: `100vh` }}
+        >
           <h4 className="text-uppercase text-black-50">{product.category}</h4>
           <h1 className="display-5">{product.title}</h1>
           <p className="lead fw-bolder w-50 text-center p-2 rounded-4 shadow">
@@ -92,7 +95,9 @@ const Product = () => {
   };
   return (
     <>
-      <div className="container py-5">
+      <div className="container py-5"
+      style={{ minHeight: `100vh` }}
+      >
         <div className="row py-5">
           {" "}
           {loading ? <Loading /> : <ShowProduct />}{" "}

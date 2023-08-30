@@ -8,6 +8,7 @@ import Footer from "./component/Footer";
 import Contact from "./component/Contact";
 import About from "./component/About";
 import Register from "./component/Register";
+import Orders from "./component/Orders";
 import Login from "./component/Login";
 import Cart from "./component/Cart";
 import Checkout from "./component/CheckOut";
@@ -17,6 +18,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { base_url } from "./utils/environment";
 import authenticatedRequest from "./utils/authenticatedRequest";
+import "primereact/resources/themes/lara-light-indigo/theme.css"; 
+import 'primeicons/primeicons.css'; // Import the PrimeIcons CSS
+
+    
+//core
+import "primereact/resources/primereact.min.css";       
 function App() {
   // login
   let dispatch = useDispatch();
@@ -61,6 +68,7 @@ function App() {
         <Route exact path="/products" Component={Products} />
         <Route exact path="/products/:id" Component={Product} />
         <Route exact path="/contact" Component={Contact} />
+        <Route exact path="/orders" Component={Orders} />
         <Route exact path="/about" Component={About} />
         <Route exact path="/register" Component={Register} />
         <Route exact path="/login" Component={Login} />
