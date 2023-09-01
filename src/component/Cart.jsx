@@ -56,7 +56,7 @@ function Cart() {
         style={{
           maxWidth: 800,
           margin: `20px auto`,
-          minHeight: `90vh`,
+          // minHeight: `90vh`,
           border: `2px solid #e1e1e1`,
         }}
       >

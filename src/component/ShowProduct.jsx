@@ -23,6 +23,7 @@ const Product = () => {
       setLoading(true);
       const response = await fetch(`${base_url}products/${id}`);
       const data = await response.json();
+      console.log(data);
       setProduct(data);
       setLoading(false);
     };
