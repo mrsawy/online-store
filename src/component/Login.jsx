@@ -37,7 +37,7 @@ export default function Register() {
         ...err,
         [e.target.name]: ` Please Enter a Valid Email !`,
       });
-    } else if (e.target.name === "password" && e.target.value.length <= 8) {
+    } else if (e.target.name === "password" && e.target.value.length <= 6) {
       setErr({
         ...err,
         [e.target.name]: ` Password must contains at least 8 characters !`,
@@ -60,7 +60,7 @@ export default function Register() {
       !err.email &&
       !err.password &&
       emailRegex.test(formData.email) &&
-      formData.password.length > 8
+      formData.password.length > 7
     ) {
       try {
         // console.log(formData);

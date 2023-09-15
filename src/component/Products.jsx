@@ -8,7 +8,6 @@ import Loading from "./Loading";
 // import Loading from "./Loading";
 
 const Products = () => {
-  
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([data]);
   const [loading, setLoading] = useState(false);
@@ -21,7 +20,7 @@ const Products = () => {
         setData(await response.clone().json());
         setFilter(await response.json());
         setLoading(false);
-        console.log(filter);
+        // console.log(filter);
       }
 
       return () => {
@@ -29,11 +28,8 @@ const Products = () => {
       };
     };
     getProducts();
-    window.scroll(0,0)
-
+    window.scroll(0, 0);
   }, []);
-
-
 
   const filterProduct = (cat) => {
     const filtered = data.filter((product) => product.category === cat);
@@ -47,54 +43,71 @@ const Products = () => {
           <Button variant="outline-dark" className=" m-2 " onClick={() => setFilter(data)}>
             All
           </Button>
-          <Button variant="outline-dark" className=" m-2"  onClick={() => filterProduct("men's clothing")}>
+          <Button
+            variant="outline-dark"
+            className=" m-2"
+            onClick={() => filterProduct("men's clothing")}
+          >
             Men's Clothing
           </Button>
-          <Button variant="outline-dark" className=" m-2" onClick={() => filterProduct("women's clothing")}>
+          <Button
+            variant="outline-dark"
+            className=" m-2"
+            onClick={() => filterProduct("women's clothing")}
+          >
             Women's Clothing
           </Button>
           <Button variant="outline-dark" className=" m-2" onClick={() => filterProduct("jewelery")}>
             Jewelry
           </Button>
-          <Button variant="outline-dark" className=" m-2  " onClick={() => filterProduct("electronics")}>
+          <Button
+            variant="outline-dark"
+            className=" m-2  "
+            onClick={() => filterProduct("electronics")}
+          >
             Electronics
           </Button>
         </ButtonGroup>
 
-        {filter.map((product) => {
+        {filter.reverse().map((product) => {
           return (
-            
-              <div className=" col-md-3 mb-4 mx-auto " key={product.id}>
-                <Card className="h-100 text-center p-4" >
-                  <Card.Img
-                    variant="top" 
-                    src={product.image}
-                    height={"220px"}
-                    width={`auto`}
-                  />
-                  <Card.Body>
-                    <Card.Title className="mb-0"> <h5>{product?.title?.substring(0,12)}</h5> </Card.Title>
-                    <Card.Text className="lead fw-bold">
-                      {product.price}$
-                    </Card.Text>
-                    <NavLink  variant="outline-dark" to={`/products/${product.id}`}  className={"btn btn-outline-dark"}> Buy Now </NavLink>
-                  </Card.Body>
-                </Card>
-              </div>
-            
+            <div
+              className=" col-md-3 mb-4 mx-auto "
+              key={product.id}
+              data-testid={`product-${product.id}`}
+            >
+              <Card className="h-100 text-center p-4">
+                <Card.Img variant="top" src={product.image} height={"220px"} width={`auto`} />
+                <Card.Body>
+                  <Card.Title className="mb-0">
+                    {" "}
+                    <h5>{product?.title?.substring(0, 12)}</h5>{" "}
+                  </Card.Title>
+                  <Card.Text className="lead fw-bold">{product.price}$</Card.Text>
+                  <NavLink
+                    variant="outline-dark"
+                    to={`/products/${product.id}`}
+                    className={"btn btn-outline-dark"}
+                  >
+                    Buy Now
+                  </NavLink>
+                </Card.Body>
+              </Card>
+            </div>
           );
         })}
       </>
     );
   };
   return (
-    <div
-    style={{minHeight:`100vh`}}
-    >
+    <div style={{ minHeight: `100vh` }}>
       <div className="container my-3">
         <div className="row">
           <div className="col-md-12 mb-3">
-            <h1 className="display-6 fw-bolder text-center">
+            <h1
+              data-testid="latest-products-section-id"
+              className="display-6 fw-bolder text-center"
+            >
               Latest Products
             </h1>
             <hr />

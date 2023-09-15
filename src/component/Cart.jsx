@@ -6,6 +6,7 @@ import { delItem, setCart } from "../redux/action/index";
 import authenticatedRequest from "../utils/authenticatedRequest";
 import { base_url } from "../utils/environment";
 import Swal from "sweetalert2";
+import checkIsInCart from "../utils/checkIsInCart";
 
 function Cart() {
   let nav = useNavigate();

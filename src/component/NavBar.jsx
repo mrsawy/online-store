@@ -13,8 +13,6 @@ const NavBar = () => {
   const { orders } = useSelector((state) => state.orders);
   let [ordersState, setOrdersState] = useState();
   useEffect(() => {
-    // authenticatedRequest
-    // base_url
     (async () => {
       let token = localStorage.getItem(`token`);
       let orders = await authenticatedRequest({
@@ -26,9 +24,8 @@ const NavBar = () => {
       dispatch(setOrders(orders));
     })();
   }, []);
-  // const {orders} = useSelector((state) => state.orders);
   const cart = useSelector((state) => state.cart);
-  const { isLogged } = useSelector((state) => state.auth);
+  const { isLogged, id, name } = useSelector((state) => state.auth);
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light col-12 bg-light py-3 shadow">
@@ -50,11 +47,7 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav m-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <NavLink
-                  className="nav-link active fw-bold "
-                  aria-current="page"
-                  to="/"
-                >
+                <NavLink className="nav-link active fw-bold " aria-current="page" to="/">
                   Home
                 </NavLink>
               </li>
@@ -73,12 +66,34 @@ const NavBar = () => {
                   Contact
                 </NavLink>
               </li>
+
               {isLogged && (orders?.length > 0 || ordersState?.length > 0) && (
                 <li className="nav-item fw-bold">
                   <NavLink className="nav-link " to="/orders">
                     Orders
                   </NavLink>
                 </li>
+              )}
+
+              {isLogged && name == `admin` && id == 1 && (
+                <>
+                  <li className="nav-item fw-bold">
+                    <NavLink className="nav-link " to="/admin-create-product">
+                      Create Product
+                    </NavLink>
+                  </li>
+
+                  <li className="nav-item fw-bold">
+                    <NavLink className="nav-link " to="/admin-view-products">
+                      View Products
+                    </NavLink>
+                  </li>
+                    <li className="nav-item fw-bold">
+                      <NavLink className="nav-link " to="/admin-view-orders">
+                        View all orders
+                      </NavLink>
+                    </li>
+                </>
               )}
             </ul>
             <div className="buttons">
@@ -87,10 +102,7 @@ const NavBar = () => {
                   <NavLink className="btn btn-outline-dark me-2" to="/login">
                     <i className="fa fa-sign-in me-1"></i> Login
                   </NavLink>
-                  <NavLink
-                    className="btn btn-outline-dark me-2 "
-                    to="/register"
-                  >
+                  <NavLink className="btn btn-outline-dark me-2 " to="/register">
                     <i className="fa fa-user-plus me-1"></i> Register
                   </NavLink>
                 </>

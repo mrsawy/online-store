@@ -7,11 +7,14 @@ import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 import { base_url } from "../utils/environment";
 import authenticatedRequest from "../utils/authenticatedRequest";
+import checkIsInCart from "../utils/checkIsInCart";
 const Product = () => {
   let { isLogged } = useSelector((s) => s.auth);
+  let cartProducts = useSelector((s) => s.cart);
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
@@ -28,28 +31,26 @@ const Product = () => {
       setLoading(false);
     };
     getProduct();
-    window.scroll(0,0)
+    window.scroll(0, 0);
   }, []);
+
+  useEffect(() => {
+    setIsInCart(checkIsInCart(product.id, cartProducts));
+  }, [product, cartProducts]);
 
   const ShowProduct = () => {
     return (
       <>
-        <div className="col-md-6 mb-5" style={{ minHeight: `190vh` }}>
-          <img
-            src={product.image}
-            alt={product.title}
-            // height={"460px"}
-            width={"100%"}
-          />
+        <div className="col-md-6 mb-5" style={{ minHeight: `90vh` }}>
+          <img src={product.image} alt={product.title} width={"100%"} />
         </div>
-        <div className="col-md-6"
-        // style={{ minHeight: `100vh` }}
-        >
+        <div className="col-md-6">
           <h4 className="text-uppercase text-black-50">{product.category}</h4>
           <h1 className="display-5">{product.title}</h1>
           <p className="lead fw-bolder w-50 text-center p-2 rounded-4 shadow">
             {" "}
             Rating: {product.rating && product.rating.rate}
+            {!product?.rating?.rate && 4.8}
             <i className="fa fa-star ms-1 text-warning"></i>
           </p>
           <h3 className="display-6 fw-bold my-5">Price: {product.price}$</h3>
@@ -84,8 +85,10 @@ const Product = () => {
                 timer: 2000,
               });
             }}
+            disabled={isInCart}
+          
           >
-            Add to cart
+            {isInCart ? `The product is already in your cart` : `Add to cart`}
           </button>
           <NavLink to="/cart" className=" btn btn-dark px-3 py-2 ms-2">
             Go to cart
@@ -96,13 +99,8 @@ const Product = () => {
   };
   return (
     <>
-      <div className="container py-5"
-      style={{ minHeight: `100vh` }}
-      >
-        <div className="row py-5">
-          {" "}
-          {loading ? <Loading /> : <ShowProduct />}{" "}
-        </div>
+      <div className="container py-5" style={{ minHeight: `100vh` }}>
+        <div className="row py-5"> {loading ? <Loading /> : <ShowProduct />} </div>
       </div>
     </>
   );

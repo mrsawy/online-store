@@ -24,14 +24,11 @@ import 'primeicons/primeicons.css'; // Import the PrimeIcons CSS
     
 //core
 import "primereact/resources/primereact.min.css";       
+import CreateProduct from "./component/CreateProduct";
+import AdminViewProducts from "./component/AdminViewProducts";
+import AdminVieworders from "./component/AdminViewOrders";
 function App() {
-  // login
   let dispatch = useDispatch();
-
-  // let cart = useSelector((s) => s.cart);
-  // useEffect(() => {
-  //   console.log(`cart from app is `,cart);
-  // }, [cart]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -66,6 +63,12 @@ function App() {
       <Routes>
         <Route exact path="/" Component={Home} />
         <Route exact path="/products" Component={Products} />
+        <Route exact path="/admin-create-product" Component={CreateProduct} />
+        <Route exact path="/admin-view-products" Component={AdminViewProducts} />
+        <Route exact path="/admin-view-orders" Component={AdminVieworders} />
+
+
+        
         <Route exact path="/products/:id" Component={Product} />
         <Route exact path="/contact" Component={Contact} />
         <Route exact path="/orders" Component={Orders} />

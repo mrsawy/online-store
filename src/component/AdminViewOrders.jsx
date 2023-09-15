@@ -14,15 +14,17 @@ function Orders() {
   let dispatch = useDispatch();
   let token = localStorage.getItem(`token`);
   let [orders, setOrders] = useState([]);
-//
+  //
   useEffect(() => {
     (async () => {
       try {
         let orders = await authenticatedRequest({
           token,
-          url: `${base_url}orders`,
+          url: `${base_url}admin/orders`,
           method: `GET`,
         });
+
+        console.log(orders);
         setOrders(orders.reverse());
         dispatch(setOrdersRedux(orders));
       } catch (err) {
@@ -46,17 +48,10 @@ function Orders() {
           rowsPerPageOptions={[5, 10, 25, 50]}
           tableStyle={{ minWidth: "50rem" }}
         >
-          <Column field="id" header="id" style={{ width: "25%" }}></Column>
-          <Column
-            field="total_price"
-            header="Total Price"
-            style={{ width: "25%" }}
-          ></Column>
-          <Column
-            field="zipcode"
-            header="Zip Code"
-            style={{ width: "25%" }}
-          ></Column>
+          <Column field="id" header="id" style={{ width: "10%" }}></Column>
+          <Column field="user_id" header="user id" style={{ width: "15%" }}></Column>
+          <Column field="total_price" header="Total Price" style={{ width: "25%" }}></Column>
+          <Column field="zipcode" header="Zip Code" style={{ width: "25%" }}></Column>
           <Column
             body={(data) => {
               return (

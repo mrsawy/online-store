@@ -9,8 +9,8 @@ let authenticatedRequest = async (options) => {
     }
     const headers = {
       Authorization: `Bearer ${token}`,
-      // "Content-Type": "application/json"
-      // accep:`application/json`
+      "Content-Type": "application/json",
+      accept:`application/json`
     };
     let response = await fetch(url, {
       method: method,
