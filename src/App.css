@@ -11,3 +11,19 @@
     text-align: start !important;
   }
 }
+
+
+.p-datatable.p-component.p-datatable-responsive-scroll{
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 12px;
+}
+
+
+/* .p-orderlist-controls .p-button, */
+.p-orderlist .p-orderlist-controls{
+  padding: 0px;
+}
+.p-orderlist-controls .p-button ,.p-orderlist-controls{
+  display: none;
+  padding: 0px !important;
+}

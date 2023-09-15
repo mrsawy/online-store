@@ -50,10 +50,7 @@ export default function Register() {
         ...err,
         [e.target.name]: ` Password must contains at least 8 characters !`,
       });
-    } else if (
-      e.target.name === "confirmPassword" &&
-      e.target.value !== formData.password
-    ) {
+    } else if (e.target.name === "confirmPassword" && e.target.value !== formData.password) {
       setErr({
         ...err,
         [e.target.name]: ` Password Dosen't Matched !`,
@@ -101,12 +98,12 @@ export default function Register() {
           timer: 2000,
         });
         setTimeout(() => {
-          nav(`/`);
+          // nav(`/`);
+          window.location.href = `/`;
         }, 2500);
       } catch (err) {
         console.log(err);
       }
-
     } else {
       Swal.fire({
         type: "error",
@@ -144,11 +141,7 @@ export default function Register() {
           <Form.Text>{err.email}</Form.Text>
         </Form.Group>
 
-        <Form.Group
-          className="my-3"
-          ref={pass1Ref}
-          controlId="formBasicPassword"
-        >
+        <Form.Group className="my-3" ref={pass1Ref} controlId="formBasicPassword">
           <Form.Control
             type="password"
             onChange={changeHandler}
@@ -159,11 +152,7 @@ export default function Register() {
           <Form.Text>{err.password1}</Form.Text>
         </Form.Group>
 
-        <Form.Group
-          className="my-3"
-          ref={pass2Ref}
-          controlId="formBasicPassword"
-        >
+        <Form.Group className="my-3" ref={pass2Ref} controlId="formBasicPassword">
           <Form.Control
             type="password"
             onChange={changeHandler}

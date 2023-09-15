@@ -44,7 +44,10 @@ export default function Contact() {
   };
   return (
     <>
-      <div className="container py-5">
+      <div className="container py-5"
+    style={{minHeight:`90vh`}}
+      
+      >
         <div className="row py-5">
           {loading ? <Loading /> : <ShowContact />}
         </div>

@@ -1,0 +1,130 @@
+.general {
+  transition: all 0.6s;
+  position: absolute;
+  /* bottom: 80px; */
+  /* left: 50; */
+  z-index: 100;
+  position: fixed;
+  /* z-index: 1; */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.customHover {
+  transition: all 0.2s;
+}
+.customHover:hover {
+  transform: scale(1.1);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  margin-top: 5%;
+  /* margin-top: 20vw; */
+  padding: 20px;
+  width: 60%;
+  /* height: 60%; */
+  max-width: 500px;
+    /* min-width: 95%; */
+
+  transform: translateY(-50px);
+  margin-bottom: 50px;
+}
+@media screen and (max-width: 1200px) {
+  .modal-content {
+    /* margin-top: 20%; */
+    /* min-width: 95%; */
+
+    transform: scale(0.8);
+  }
+}
+@media screen and (max-width: 650px) {
+  .modal-content {
+    min-width: 95%;
+    font-size: small;
+    /* margin-top: 50%; */
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .modal-content {
+    /* margin-top: 65%; */
+  }
+}
+
+@media screen and (max-width: 500) {
+  .modal-content {
+    min-width: 95%;
+    font-size: x-small;
+  }
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.show {
+  display: block;
+  opacity: 1;
+}
+
+.fade {
+  opacity: 0;
+  /* display: none; */
+}
+
+.productCard {
+  height: 320px;
+}
+.categoryCard {
+  height: 280px !important;
+}
+/* @media screen and (max-width:1200px) {
+  .categoryCard{
+    height:100px !important
+  }
+} */
+@media screen and (max-width: 990px) {
+  .productCard {
+    height: 250px !important;
+  }
+}
+
+@media screen and (max-width: 573px) {
+  .productCard {
+    height: 400px !important;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .productCard {
+    height: 300px !important;
+  }
+}
+
+.hoverBig {
+  transition: all 0.3s;
+}
+.hoverBig:hover {
+  transform: scale(1.1);
+  /* transform: translateX(30px); */
+}
+
+
+@media screen and (max-width:572px) {
+  .smallWidth300{
+    min-height: 410px !important;
+  }
+}
+@media screen and (max-width:500px) {
+  .smallWidth300{
+    min-height: 360px !important;
+  }
+}

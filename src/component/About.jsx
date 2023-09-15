@@ -6,7 +6,10 @@ import aboutImg from './../assets/about.jpg'
 
 const About = () => {
     return (
-        <div>
+        <div
+    style={{minHeight:`90vh`}}
+        
+        >
             <div className="container py-5 my-5">
                 <div className="row">
                 <div className="col-md-6 d-flex justify-content-center">

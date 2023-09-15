@@ -8,6 +8,7 @@ import Footer from "./component/Footer";
 import Contact from "./component/Contact";
 import About from "./component/About";
 import Register from "./component/Register";
+import Orders from "./component/Orders";
 import Login from "./component/Login";
 import Cart from "./component/Cart";
 import Checkout from "./component/CheckOut";
@@ -17,14 +18,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { base_url } from "./utils/environment";
 import authenticatedRequest from "./utils/authenticatedRequest";
-function App() {
-  // login
-  let dispatch = useDispatch();
+import "primereact/resources/themes/lara-light-indigo/theme.css"; 
+import 'primeicons/primeicons.css'; // Import the PrimeIcons CSS
 
-  // let cart = useSelector((s) => s.cart);
-  // useEffect(() => {
-  //   console.log(`cart from app is `,cart);
-  // }, [cart]);
+    
+//core
+import "primereact/resources/primereact.min.css";       
+import CreateProduct from "./component/CreateProduct";
+import AdminViewProducts from "./component/AdminViewProducts";
+import AdminVieworders from "./component/AdminViewOrders";
+function App() {
+  let dispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -59,8 +63,15 @@ function App() {
       <Routes>
         <Route exact path="/" Component={Home} />
         <Route exact path="/products" Component={Products} />
+        <Route exact path="/admin-create-product" Component={CreateProduct} />
+        <Route exact path="/admin-view-products" Component={AdminViewProducts} />
+        <Route exact path="/admin-view-orders" Component={AdminVieworders} />
+
+
+        
         <Route exact path="/products/:id" Component={Product} />
         <Route exact path="/contact" Component={Contact} />
+        <Route exact path="/orders" Component={Orders} />
         <Route exact path="/about" Component={About} />
         <Route exact path="/register" Component={Register} />
         <Route exact path="/login" Component={Login} />
