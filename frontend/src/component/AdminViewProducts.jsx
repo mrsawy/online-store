@@ -4,7 +4,7 @@ import { DataTable } from "primereact/datatable";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import { base_url } from "../utils/environment";
+import { base_url ,base_url_admin} from "../utils/environment";
 import  TextWithReadMore from "./readMoreAndLess/ReadMoreAndLess.js";
 
 function AdminViewProducts() {
@@ -71,7 +71,7 @@ function AdminViewProducts() {
                           "Content-Type": "application/json",
                           accept: `application/json`,
                         };
-                        await axios.delete(`${base_url}admin/products/${data.id}`, { headers });
+                        await axios.delete(`${base_url_admin}products/${data.id}`, { headers });
                         Swal.fire({
                           position: "center-center",
                           type: "success",

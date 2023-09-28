@@ -16,7 +16,7 @@ import OrderStatus from "./component/OrderStatus";
 import { login, setCart } from "./redux/action";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { base_url } from "./utils/environment";
+import { base_url  , base_url_admin} from "./utils/environment";
 import authenticatedRequest from "./utils/authenticatedRequest";
 import "primereact/resources/themes/lara-light-indigo/theme.css"; 
 import 'primeicons/primeicons.css'; // Import the PrimeIcons CSS
@@ -29,7 +29,6 @@ import AdminViewProducts from "./component/AdminViewProducts";
 import AdminVieworders from "./component/AdminViewOrders";
 function App() {
   let dispatch = useDispatch();
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -44,7 +43,6 @@ function App() {
         .then(async (data) => {
           console.log(data);
           dispatch(login({ id: data.id, name: data.name, email: data.email }));
-          // authenticatedRequest
           let cart = await authenticatedRequest({
             method: `GET`,
             url: `${base_url}cart`,

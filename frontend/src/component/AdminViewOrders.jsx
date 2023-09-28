@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import authenticatedRequest from "../utils/authenticatedRequest";
-import { base_url } from "../utils/environment";
+import { base_url ,base_url_admin} from "../utils/environment";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentOrders, setOrders as setOrdersRedux } from "../redux/action";
 import { Button } from "primereact/button";
 import Modal from "./../component/modal/Modal";
 
-// let orders
 
 function Orders() {
   let dispatch = useDispatch();
@@ -20,11 +19,10 @@ function Orders() {
       try {
         let orders = await authenticatedRequest({
           token,
-          url: `${base_url}admin/orders`,
+          url: `${base_url_admin}admin/orders`,
           method: `GET`,
         });
-
-        console.log(orders);
+        // console.log(orders);
         setOrders(orders.reverse());
         dispatch(setOrdersRedux(orders));
       } catch (err) {

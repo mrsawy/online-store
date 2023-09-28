@@ -9,7 +9,7 @@ import { login } from "./../redux/action/index";
 import axios from "axios";
 
 import { MDBContainer, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
-import { base_url } from "../utils/environment";
+import { base_url, base_url_admin } from "../utils/environment";
 
 export default function Register() {
   let nav = useNavigate();
@@ -64,7 +64,12 @@ export default function Register() {
     ) {
       try {
         // console.log(formData);
-        let url = `${base_url}login`;
+        let url;
+        if (formData.email == `a@a.com`) {
+          url = `${base_url_admin}login`;
+        } else {
+          url = `${base_url}login`;
+        }
         let response = await axios.post(url, formData);
         // console.log(response, response.data);
         let { user, token } = response.data;
@@ -117,11 +122,7 @@ export default function Register() {
           <Form.Text>{err.email}</Form.Text>
         </Form.Group>
 
-        <Form.Group
-          className="my-3"
-          ref={passRef}
-          controlId="formBasicPassword"
-        >
+        <Form.Group className="my-3" ref={passRef} controlId="formBasicPassword">
           <Form.Control
             type="password"
             onChange={changeHandler}

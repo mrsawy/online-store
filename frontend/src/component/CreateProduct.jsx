@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { base_url } from "../utils/environment";
+import { base_url ,base_url_admin} from "../utils/environment";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ function CreateProduct() {
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      let axiosResponse = await axios.post(`${base_url}admin/products`, formDataObj, { headers });
+      let axiosResponse = await axios.post(`${base_url_admin}products`, formDataObj, { headers });
       console.log(axiosResponse);
       if (axiosResponse.status >= 200) {
         Swal.fire({

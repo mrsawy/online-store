@@ -75,7 +75,7 @@ const NavBar = () => {
                 </li>
               )}
 
-              {isLogged && name == `admin` && id == 1 && (
+              {isLogged && name == `admin` && (
                 <>
                   <li className="nav-item fw-bold">
                     <NavLink className="nav-link " to="/admin-create-product">
